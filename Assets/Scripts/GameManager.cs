@@ -1,9 +1,13 @@
+using System;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public InputManager InputManager { get; private set; }
+
+    [Header("Dynamic Game objects")]
+    [SerializeField] private GameObject bossDoor;
 
     [Header("Managers")]
     public UIManager UIManager;
@@ -18,8 +22,23 @@ public class GameManager : MonoBehaviour
         Instance = this;
 
         totalKeys = FindObjectsOfType<CollectableKey>().Length;
-        print("Totalkeys: " +  totalKeys);
+        keysLeftToCollect = totalKeys;
 
         InputManager = new InputManager();
+    }
+
+    public void UpdateKeysLeft()
+    {
+
+        keysLeftToCollect--;
+        CheckAllKeysCollected();
+    }
+
+    private void CheckAllKeysCollected()
+    {
+        if(keysLeftToCollect <= 0)
+        {
+            Destroy(bossDoor);
+        }
     }
 }
