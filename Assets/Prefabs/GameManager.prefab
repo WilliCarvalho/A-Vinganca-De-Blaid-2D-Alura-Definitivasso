@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5b18d807b37136488d3d9b5388d7f79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AudioMixer: {fileID: 24100000, guid: cad5b668a02768247b70a0eaf38d89ab, type: 2}
   SFXAudioSource: {fileID: 2750969655079508909}
   EnvironmentAudioSource: {fileID: 1818970444051118954}
   SFXConfigs:
@@ -63,6 +64,9 @@ MonoBehaviour:
     VolumeScale: 0.5
   - Type: 4
     AudioClip: {fileID: 8300000, guid: 57e48a578c4bd904c939c69d63499fa7, type: 3}
+    VolumeScale: 0.5
+  - Type: 5
+    AudioClip: {fileID: 8300000, guid: 7cd01691cead1514ca2c1af3420b0d21, type: 3}
     VolumeScale: 0.5
 --- !u!1 &4087309965819128028
 GameObject:
@@ -109,6 +113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0585fbbe6b316741907e3e3c74c0fa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UIManager: {fileID: 0}
   AudioManager: {fileID: 3167156102956787175}
 --- !u!1 &4706504013213065057
 GameObject:
@@ -152,7 +157,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -1577099333298361684, guid: cad5b668a02768247b70a0eaf38d89ab, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 71c2a8ad6a2fbd34c94ab6ca8d141bbb, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 3b06b835118e60f4ebf546da7f88bad5, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
