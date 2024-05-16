@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class BossBehavior : MonoBehaviour
@@ -7,7 +8,13 @@ public class BossBehavior : MonoBehaviour
 
     [SerializeField] private float moveSpeed = 3f;
 
+    [Header("Attack properties")]
     [SerializeField] private float attackRange = 1f;
+    [SerializeField] private float attackSize = 1f;
+    [SerializeField] private Vector3 attackOffset;
+    [SerializeField] private LayerMask attackMask;
+
+    private Vector3 attackPosition;
 
     private bool canAttack = false;
     private bool isFlipped = true;
@@ -59,8 +66,27 @@ public class BossBehavior : MonoBehaviour
         }
     }
 
+    private void Attack()
+    {
+        attackPosition = transform.position;
+        attackPosition += transform.right * attackOffset.x;
+        attackPosition += transform.up * attackOffset.y;
+
+        Collider2D collisionInfo = Physics2D.OverlapCircle(attackPosition, attackSize, attackMask);
+        if (collisionInfo != null)
+        {
+            collisionInfo.GetComponent<Health>().TakeDamage();
+        }
+    }
+
     public bool GetCanAttack()
     {
         return canAttack;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(attackPosition, attackSize);
     }
 }
