@@ -22,8 +22,9 @@ public class PlayerBehavior : MonoBehaviour
         rigidbody = GetComponent<Rigidbody2D>();
         isGroundedCheker = GetComponent<IsGroundedChecker>();
         health = GetComponent<Health>();
-        health.OnHurt += PlayHurtAudio;
+        health.OnHurt += HandleHurt;
         health.OnDead += HandlePlayerDeath;
+        UpdateLives(health.GetLives());
     }
 
     private void Start()
@@ -62,8 +63,9 @@ public class PlayerBehavior : MonoBehaviour
         GameManager.Instance.AudioManager.PlaySFX(SFX.PlayerJump);
     }
 
-    private void PlayHurtAudio()
+    private void HandleHurt()
     {
+        UpdateLives(health.GetLives());
         GameManager.Instance.AudioManager.PlaySFX(SFX.PlayerHurt);
     }
 
@@ -73,6 +75,12 @@ public class PlayerBehavior : MonoBehaviour
         rigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
         GameManager.Instance.AudioManager.PlaySFX(SFX.PlayerDeath);
         GameManager.Instance.InputManager.DisablePlayerInput();
+        UpdateLives(health.GetLives());
+    }
+
+    private void UpdateLives(int amount)
+    {
+        GameManager.Instance.UpdateLives(amount);
     }
 
     private void Attack()
