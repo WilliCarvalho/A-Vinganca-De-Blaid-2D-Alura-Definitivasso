@@ -1,10 +1,12 @@
-using System;
+using System.Collections;
 using UnityEngine;
 
 public class BossBehavior : MonoBehaviour
 {
     private Rigidbody2D rigidbody;
     private Transform playerPosition;
+    private Animator animator;
+    private Health health;
 
     [SerializeField] private float moveSpeed = 3f;
 
@@ -22,7 +24,28 @@ public class BossBehavior : MonoBehaviour
     private void Start()
     {
         rigidbody = GetComponent<Rigidbody2D>();
-        playerPosition = GameManager.Instance.GetPlayer().transform;        
+        animator = GetComponent<Animator>();
+        playerPosition = GameManager.Instance.GetPlayer().transform;
+        health = GetComponent<Health>();
+        health.OnHurt += PlayHurtAnim;
+        health.OnDead += HandleDeath;
+    }
+
+    private void PlayHurtAnim()
+    {
+        animator.SetTrigger("hurt");
+    }
+
+    private void HandleDeath()
+    {
+        animator.SetTrigger("dead");
+        GetComponent<Collider2D>().enabled = false;
+        StartCoroutine(DestroyEnemy(2));
+    }
+    private IEnumerator DestroyEnemy(int time)
+    {
+        yield return new WaitForSeconds(time);
+        Destroy(this.gameObject);
     }
 
     public void FollowPlayer()
@@ -77,6 +100,11 @@ public class BossBehavior : MonoBehaviour
         {
             collisionInfo.GetComponent<Health>().TakeDamage();
         }
+    }
+
+    public void StartChasing()
+    {
+        animator.SetBool("canChase", true);
     }
 
     public bool GetCanAttack()

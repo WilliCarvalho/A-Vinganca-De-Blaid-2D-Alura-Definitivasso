@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class PlayerBehavior : MonoBehaviour
@@ -24,16 +23,16 @@ public class PlayerBehavior : MonoBehaviour
         isGroundedCheker = GetComponent<IsGroundedChecker>();
         health = GetComponent<Health>();
         health.OnHurt += HandleHurt;
-        health.OnDead += HandlePlayerDeath;
-        UpdateLives(health.GetLives());
+        health.OnDead += HandlePlayerDeath;        
     }
 
     private void Start()
     {
         GameManager.Instance.InputManager.OnJump += HandleJump;
+        UpdateLives(health.GetLives());
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         MovePlayer();
         FlipSpriteAccordingToMoveDirection();
@@ -42,7 +41,8 @@ public class PlayerBehavior : MonoBehaviour
     private void MovePlayer()
     {
         moveDirection = GameManager.Instance.InputManager.Movement;
-        transform.Translate(moveDirection * Time.deltaTime * moveSpeed, 0, 0);
+        Vector2 directionToMove = new Vector2(moveDirection * moveSpeed, rigidbody.velocity.y);
+        rigidbody.velocity = directionToMove;
     }
 
     private void FlipSpriteAccordingToMoveDirection()
